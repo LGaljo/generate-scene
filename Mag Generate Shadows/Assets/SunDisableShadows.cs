@@ -1,24 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SunDisableShadows : MonoBehaviour
 {
     // Reference to the light component
-    private Light sunLight;
+    public Light sunLight;
+
+    public void Update()
+    {
+        // Custom action on 'U' key press
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            this.OnButtonClick();
+        }
+    }
 
     // Start is called before the first frame update
-    void Start()
+    public void OnButtonClick()
     {
-        // Assuming the script is attached to the GameObject with the light component
-        sunLight = GetComponent<Light>();
-
         if (sunLight != null)
         {
-
             Debug.Log("Sun has currently " + sunLight.shadows);
-            // Disable shadows
-            //sunLight.shadows = LightShadows.None;
+
+            if (sunLight.shadows == LightShadows.None) {
+                sunLight.shadows = LightShadows.Hard;
+            }
+            else
+            {
+                sunLight.shadows = LightShadows.None;
+            }
 
             // You can also adjust other shadow-related properties if needed
             // For example:

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             ms.OnButtonClick();
         }
 
-        // Custom action on 'U' key press
+        // Custom action on 'U' key presspress
         if (Input.GetKeyDown(KeyCode.C))
         {
             GameObject gameObject = GameObject.Find("Button TakeScreenshot");

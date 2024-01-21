@@ -15,7 +15,7 @@ public class PlaceTree : MonoBehaviour
     {
         // Find existing parent GameObject by name
         GameObject parent = GameObject.Find(parentName);
-        Debug.Log(parent.name);
+        //Debug.Log(parent.name);
         // If the parent doesn't exist, create it
         if (parent == null)
         {
@@ -34,7 +34,7 @@ public class PlaceTree : MonoBehaviour
 
         float assetWidth = newAsset.GetComponent<Renderer>().bounds.size.x;
         float assetDepth = newAsset.GetComponent<Renderer>().bounds.size.z;
-        Debug.Log("Asset size x: " + assetWidth + " z: " + assetDepth);
+        //Debug.Log("Asset size x: " + assetWidth + " z: " + assetDepth);
 
         Destroy(newAsset);
 
@@ -43,7 +43,7 @@ public class PlaceTree : MonoBehaviour
             for (float z = zLimitB; z < zLimitU; z += Random.Range(assetDepth * 0.05f, assetDepth * 0.25f))
             {
                 float xtmp = Random.Range(assetWidth * -0.1f, assetWidth * 0.1f);
-                Debug.Log("Place an asset x: "+ xtmp + " z: "+z);
+                //Debug.Log("Place an asset x: "+ xtmp + " z: "+z);
                 this.PlaceAsset(parent, x + xtmp, z);
             }
         }
@@ -57,7 +57,7 @@ public class PlaceTree : MonoBehaviour
             // Instantiate the asset as a child of the parent
             float yPosition = Terrain.activeTerrain.SampleHeight(new Vector3(xPosition, 0f, zPosition));
             GameObject newAsset = Instantiate(assetPrefab, new Vector3(xPosition, yPosition, zPosition), Quaternion.identity, parent.transform);
-            Debug.Log(newAsset.transform.position);
+            //Debug.Log(newAsset.transform.position);
             newAsset.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         }
         else
