@@ -19,7 +19,7 @@ public class SunDisableShadows : MonoBehaviour
     {
         if (sunLight != null)
         {
-            Debug.Log("Sun has currently " + sunLight.shadows);
+            //Debug.Log("Sun has currently " + sunLight.shadows);
 
             if (sunLight.shadows == LightShadows.None) {
                 sunLight.shadows = LightShadows.Hard;

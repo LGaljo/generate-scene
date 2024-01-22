@@ -15,4 +15,16 @@ public class TakeScreenshot : MonoBehaviour
         ScreenCapture.CaptureScreenshot(screenshot, 1);
         Debug.Log(screenshot);
     }
+
+    public void Update()
+    {
+        // Custom action on 'U' key presspress
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            GameObject gameObject = GameObject.Find("Button TakeScreenshot");
+            TakeScreenshot ts = gameObject.GetComponent<TakeScreenshot>();
+            ts.OnButtonClick();
+        }
+
+    }
 }

@@ -36,22 +36,5 @@ public class PlayerController : MonoBehaviour
             float newRotation = Mathf.Clamp(currentRotation - mouseY, 0f, 80f); // Adjust the clamp values as needed
             mainCamera.transform.rotation = Quaternion.Euler(newRotation, mainCamera.transform.rotation.eulerAngles.y, 0f);
         }
-
-        // Custom action on 'U' key press
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            GameObject gameObject = GameObject.Find("Button");
-            ModifyShaders ms = gameObject.GetComponent<ModifyShaders>();
-            ms.OnButtonClick();
-        }
-
-        // Custom action on 'U' key presspress
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            GameObject gameObject = GameObject.Find("Button TakeScreenshot");
-            TakeScreenshot ts = gameObject.GetComponent<TakeScreenshot>();
-            ts.OnButtonClick();
-        }
-
     }
 }
