@@ -2699,6 +2699,7 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 75fe2d13c7926c14aae14bdd6f7822d1, type: 3}
   - {fileID: 919132149155446097, guid: 0edcbaee647c77247ae86ea1de5e57fc, type: 3}
   - {fileID: 919132149155446097, guid: 5b2c75249d8cf924f8eed16cc0b174c8, type: 3}
+  assetIdx: 0
   assetPrefab: {fileID: 919132149155446097, guid: 75fe2d13c7926c14aae14bdd6f7822d1,
     type: 3}
   parentName: trees
@@ -3228,6 +3229,7 @@ GameObject:
   - component: {fileID: 1853565638}
   - component: {fileID: 1853565637}
   - component: {fileID: 1853565636}
+  - component: {fileID: 1853565639}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -3309,6 +3311,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1853565639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853565635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e85ac378809ee48848b34aad790fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textures:
+  - {fileID: 2800000, guid: 3d6000f2d3208964eaf5a475ecdd49db, type: 3}
+  - {fileID: 2800000, guid: ee82f82cdd88d94408b5e50ca5a2bb9a, type: 3}
+  - {fileID: 2800000, guid: 2b09f9ac04a48654e8a44fec73c097de, type: 3}
+  - {fileID: 2800000, guid: 5cc3e4379da00c54e86fbaeb0ca1a040, type: 3}
+  - {fileID: 2800000, guid: 76b615b030ed62945aa8943129b4fe91, type: 3}
+  - {fileID: 2800000, guid: 41cc6573d767a68499b121837851ff1f, type: 3}
+  - {fileID: 2800000, guid: 080a46e3c8828694498705960bfc8f50, type: 3}
+  - {fileID: 2800000, guid: 99d53cc40c8fc9a479ec32e8ea20792c, type: 3}
+  - {fileID: 2800000, guid: 3a54a091793f35c459e604452781cdaa, type: 3}
+  - {fileID: 2800000, guid: 9b2807d5cefc6384aad61894e635c556, type: 3}
+  idx: 0
+  terrain: {fileID: 1853565637}
 --- !u!4 &1881364308 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4448652934837084, guid: c1293ad6a2baf184c92d003aa923c284,

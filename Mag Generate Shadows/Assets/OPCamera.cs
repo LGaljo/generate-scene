@@ -68,9 +68,6 @@ public class OPCamera : MonoBehaviour
         {
             TerrainData terrainData = terrain.terrainData;
 
-            Debug.Log(terrainData);
-            Debug.Log(terrainData.size);
-
             // Get the size of the terrain
             float terrainWidth = terrainData.size.x;
             float terrainLength = terrainData.size.z;
@@ -78,9 +75,6 @@ public class OPCamera : MonoBehaviour
             // Calculate the center of the terrain
             this.centerX = terrainWidth / 2f;
             this.centerZ = terrainLength / 2f;
-
-            // Log the center coordinates (you can use these values as needed)
-            Debug.Log("Terrain Center: (" + this.centerX + ", " + this.centerZ + ")");
         }
         else
         {
