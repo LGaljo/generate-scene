@@ -89,9 +89,8 @@ public class PlaceTree : MonoBehaviour
         }
     }
 
-    void PlaceAssetsInPolar()
+    public void PlaceAssetsInPolar()
     {
-        this.DestroyAllChildren();
         for (int i = 0; i < objectQuantity; i++)
         {
             float randomAngle = Random.Range(0f, 360f);
@@ -104,7 +103,7 @@ public class PlaceTree : MonoBehaviour
         }
     }
 
-    private void DestroyAllChildren()
+    public void DestroyAllChildren()
     {
         foreach (Transform child in this.parent.transform)
         {

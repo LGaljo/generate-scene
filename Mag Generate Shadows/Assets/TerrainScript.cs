@@ -49,6 +49,17 @@ public class TerrainScript : MonoBehaviour
         //terrain.terrainData.terrainLayers = new TerrainLayer[] { terrainLayer };
     }
 
+    public string GetTerrainLayerName(int layer)
+    {
+        // Check if there is at least one terrain layer
+        if (terrain.terrainData.terrainLayers.Length > 0)
+        {
+            return terrain.terrainData.terrainLayers[layer].diffuseTexture.name;
+        }
+
+        return "";
+    }
+
     // Update is called once per frame
     void Update()
     {

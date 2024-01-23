@@ -102,12 +102,12 @@ public class ModifyShaders : MonoBehaviour
 
     public void Update()
     {
-        // Custom action on 'U' key press
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            GameObject gameObject = GameObject.Find("Button");
-            ModifyShaders ms = gameObject.GetComponent<ModifyShaders>();
-            ms.OnButtonClick();
-        }
+        //// Custom action on 'U' key press
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    GameObject gameObject = GameObject.Find("Button");
+        //    ModifyShaders ms = gameObject.GetComponent<ModifyShaders>();
+        //    ms.OnButtonClick();
+        //}
     }
 }

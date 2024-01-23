@@ -10,12 +10,12 @@ public class SunDisableShadows : MonoBehaviour
         // Custom action on 'U' key press
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            this.OnButtonClick();
+            this.ToggleShadows();
         }
     }
 
     // Start is called before the first frame update
-    public void OnButtonClick()
+    public void ToggleShadows()
     {
         if (sunLight != null)
         {
@@ -34,6 +34,26 @@ public class SunDisableShadows : MonoBehaviour
             // sunLight.shadowStrength = 0f; // Set shadow strength to 0 for no shadows
             // sunLight.shadowBias = 0f; // Set shadow bias to 0 for no bias
             // sunLight.shadowNormalBias = 0f; // Set shadow normal bias to 0 for no normal bias
+        }
+        else
+        {
+            Debug.LogWarning("Light component not found on the GameObject.");
+        }
+    }
+
+    public void EnableShadows()
+    {
+        if (sunLight != null)
+        {
+            sunLight.shadows = LightShadows.Hard;
+        }
+    }
+
+    public void DisableShadows()
+    {
+        if (sunLight != null)
+        {
+            sunLight.shadows = LightShadows.None;
         }
         else
         {

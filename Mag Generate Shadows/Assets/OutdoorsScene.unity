@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savePath: 
   orthoCamera: {fileID: 0}
-  orthographicSize: 50
+  orthographicSize: 75
   CameraMoveX: 25
   CameraMoveZ: 25
   centerX: 0
@@ -2703,12 +2703,12 @@ MonoBehaviour:
   assetPrefab: {fileID: 919132149155446097, guid: 75fe2d13c7926c14aae14bdd6f7822d1,
     type: 3}
   parentName: trees
-  objectQuantity: 1000
+  objectQuantity: 1500
   xLimitB: 100
   xLimitU: 300
   zLimitB: 100
   zLimitU: 300
-  maxRadius: 100
+  maxRadius: 200
   parent: {fileID: 0}
   assetWidth: 0
   assetDepth: 0
@@ -3515,7 +3515,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913421751}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a678b8bdf451c2247b78cf7bd9b8ac1d, type: 3}
   m_Name: 
@@ -3527,7 +3527,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913421751}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84ca1e35047633c418ea64ad955199ce, type: 3}
   m_Name: 
