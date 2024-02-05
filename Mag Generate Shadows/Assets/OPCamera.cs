@@ -77,9 +77,11 @@ public class OPCamera : MonoBehaviour
         {
             GameObject sun = GameObject.Find("Sun");
             SunDisableShadows sds = sun.GetComponent<SunDisableShadows>();
+            Light sunLight = sun.GetComponent<Light>();
+            sunLight.transform.position = new Vector3(0f, 0f, 0f);
 
             PlaceTree placeTrees = GetComponent<PlaceTree>();
-            placeTrees.PlaceAssetsInPolar();
+            placeTrees.PlaceAssetsInPolar("trees");
 
             string shortHash = CalculateShortHash();
 
