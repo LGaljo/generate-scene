@@ -20,7 +20,8 @@ public class OPCamera : MonoBehaviour
     public float centerZ = 0;
 
     int idx = 100;
-    public int loopLimit = 20;
+    public int loopLimit = 2;
+    public int tileMultiplier = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -47,8 +48,10 @@ public class OPCamera : MonoBehaviour
         this.MoveModifyAndCapture();
         if (Input.GetKeyDown(KeyCode.U))
         {
-              this.CaptureAndSave("");
+            string shortHash = CalculateShortHash();
+            this.CaptureAndSave(shortHash);
         }
+        // This starts automatic capture
         if (Input.GetKeyDown(KeyCode.X))
         {
             this.idx = 0;
@@ -80,23 +83,34 @@ public class OPCamera : MonoBehaviour
             Light sunLight = sun.GetComponent<Light>();
             sunLight.transform.position = new Vector3(0f, 0f, 0f);
 
-            PlaceTree placeTrees = GetComponent<PlaceTree>();
-            placeTrees.PlaceAssetsInPolar("trees");
+            PlaceObjects placeObjects = GetComponent<PlaceObjects>();
+            placeObjects.PlaceAssetsInPolar("trees");
+            placeObjects.PlaceAssetsInPolar("houses");
 
             string shortHash = CalculateShortHash();
 
-            sds.EnableShadows();
-            orthoCamera.transform.position = new(500f, 100f, 425f);
-            this.CaptureAndSave(shortHash);
-            orthoCamera.transform.position = new(500f, 100f, 575f);
-            this.CaptureAndSave(shortHash);
-            sds.DisableShadows();
-            orthoCamera.transform.position = new(500f, 100f, 425f);
-            this.CaptureAndSave(shortHash);
-            orthoCamera.transform.position = new(500f, 100f, 575f);
-            this.CaptureAndSave(shortHash);
+            List<float> angles = new() { 0f, 90f, 180f, 270f };
 
-            placeTrees.DestroyAllChildren();
+            for (int s = 0; s < 2; s++)
+            {
+                if (s == 0)
+                {
+                    sds.EnableShadows();
+                }
+                else
+                {
+                    sds.DisableShadows();
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    float x = 125f * (1 + this.idx) * Mathf.Cos(Mathf.Deg2Rad * angles[i]) + this.centerX;
+                    float z = 125f * (1 + this.idx) * Mathf.Sin(Mathf.Deg2Rad * angles[i]) + this.centerZ;
+                    orthoCamera.transform.position = new(x, 100f, z);
+                    this.CaptureAndSave(shortHash);
+                }
+            }
+
+            placeObjects.DestroyAllChildren();
             this.idx += 1;
         } else if (this.idx == this.loopLimit)
         {
@@ -154,16 +168,21 @@ public class OPCamera : MonoBehaviour
         string savePath = System.IO.Path.Combine(folderPath, $"{layerName}_x{x}-z{z}-{shadowType}-{shortHash}.png");
 
         // Create a RenderTexture to temporarily store the camera's view
-        RenderTexture renderTexture = new(Screen.width, Screen.height, 24);
+        RenderTexture renderTexture = new(256 * this.tileMultiplier, 256 * this.tileMultiplier, 24);
+        //RenderTexture renderTexture = new(Screen.width, Screen.height, 24);
         orthoCamera.targetTexture = renderTexture;
 
         // Render the camera's view to the RenderTexture
         orthoCamera.Render();
 
         // Create a new Texture2D and read the pixels from the RenderTexture
-        Texture2D screenshot = new(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        //Texture2D screenshot = new(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        //RenderTexture.active = renderTexture;
+        //screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        //screenshot.Apply();
+        Texture2D screenshot = new(256 * this.tileMultiplier, 256 * this.tileMultiplier, TextureFormat.RGB24, false);
         RenderTexture.active = renderTexture;
-        screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        screenshot.ReadPixels(new Rect(0, 0, 256 * this.tileMultiplier, 256 * this.tileMultiplier), 0, 0);
         screenshot.Apply();
 
         // Reset the active RenderTexture and release the temporary RenderTexture

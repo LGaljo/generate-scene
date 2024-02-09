@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1882.002, g: 1819.0559, b: 1944.6345, a: 1}
+  m_IndirectSpecularColor: {r: 1889.6387, g: 1826.4768, b: 1952.1111, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -226,13 +226,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157207112}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5288044, y: -0.25618824, z: 0.79081404, w: 0.17130889}
-  m_LocalPosition: {x: -32.4, y: 1478, z: 2017}
+  m_LocalRotation: {x: 0.26341078, y: 0.48461893, z: -0.15578069, w: 0.8194459}
+  m_LocalPosition: {x: 0, y: 0, z: 2017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 144.1, y: -112.46, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.64, y: 61.2, z: 0}
 --- !u!114 &157207115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   CameraMoveZ: 25
   centerX: 0
   centerZ: 0
-  loopLimit: 10
+  loopLimit: 2
 --- !u!4 &493455459
 Transform:
   m_ObjectHideFlags: 0
@@ -3936,12 +3936,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 1
+  antialiasing: 2
   SMAAQuality: 2
   dithering: 0
   stopNaNs: 1
   taaSharpenStrength: 0.5
-  TAAQuality: 1
+  TAAQuality: 2
   taaHistorySharpening: 0.35
   taaAntiFlicker: 0.5
   taaMotionVectorRejection: 0

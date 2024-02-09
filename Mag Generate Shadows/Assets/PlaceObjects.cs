@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaceTree : MonoBehaviour
+public class PlaceObjects : MonoBehaviour
 {
     GameObject parent;
     public GameObject[] treeAssets;

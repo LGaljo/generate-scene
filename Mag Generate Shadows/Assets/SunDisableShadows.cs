@@ -4,6 +4,7 @@ public class SunDisableShadows : MonoBehaviour
 {
     // Reference to the light component
     public Light sunLight;
+    float nonShadowIntensity = 78000f;
 
     public void Update()
     {
@@ -12,33 +13,27 @@ public class SunDisableShadows : MonoBehaviour
         {
             this.ToggleShadows();
         }
+        if (Input.GetKeyDown(KeyCode.O)) {
+            this.nonShadowIntensity += 1000;
+            sunLight.intensity = nonShadowIntensity;
+        }
+        if (Input.GetKeyDown(KeyCode.L)) {
+            this.nonShadowIntensity -= 1000;
+            sunLight.intensity = nonShadowIntensity;
+        }
     }
 
     // Start is called before the first frame update
     public void ToggleShadows()
     {
-        if (sunLight != null)
-        {
             //Debug.Log("Sun has currently " + sunLight.shadows);
-
             if (sunLight.shadows == LightShadows.None) {
-                sunLight.shadows = LightShadows.Hard;
+                this.EnableShadows();
             }
             else
             {
-                sunLight.shadows = LightShadows.None;
+                this.DisableShadows();
             }
-
-            // You can also adjust other shadow-related properties if needed
-            // For example:
-            // sunLight.shadowStrength = 0f; // Set shadow strength to 0 for no shadows
-            // sunLight.shadowBias = 0f; // Set shadow bias to 0 for no bias
-            // sunLight.shadowNormalBias = 0f; // Set shadow normal bias to 0 for no normal bias
-        }
-        else
-        {
-            Debug.LogWarning("Light component not found on the GameObject.");
-        }
     }
 
     public void EnableShadows()
@@ -46,6 +41,12 @@ public class SunDisableShadows : MonoBehaviour
         if (sunLight != null)
         {
             sunLight.shadows = LightShadows.Hard;
+            sunLight.transform.rotation = Quaternion.Euler(33f, 45f, 0f);
+            sunLight.intensity = 130000f;
+        }
+        else
+        {
+            Debug.LogWarning("Light component not found on the GameObject.");
         }
     }
 
@@ -54,6 +55,8 @@ public class SunDisableShadows : MonoBehaviour
         if (sunLight != null)
         {
             sunLight.shadows = LightShadows.None;
+            sunLight.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            sunLight.intensity = this.nonShadowIntensity;
         }
         else
         {
