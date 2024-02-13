@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1889.6387, g: 1826.4768, b: 1952.1111, a: 1}
+  m_IndirectSpecularColor: {r: 262.1177, g: 324.74368, b: 429.81012, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 157207114}
   - component: {fileID: 157207113}
   - component: {fileID: 157207115}
-  - component: {fileID: 157207117}
   - component: {fileID: 157207118}
   m_Layer: 0
   m_Name: Sun
@@ -168,7 +167,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 130000
+  m_Intensity: 100000
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -212,8 +211,9 @@ Light:
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 1
   m_ColorTemperature: 6500
-  m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 10}
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 2.2687775e-10, y: 1.9598655e-19, z: 7.0361966e+22,
+    w: 7.2128436e+22}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -226,13 +226,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157207112}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26341078, y: 0.48461893, z: -0.15578069, w: 0.8194459}
+  m_LocalRotation: {x: 0.5907792, y: 0.004583623, z: -0.0033563017, w: 0.80681324}
   m_LocalPosition: {x: 0, y: 0, z: 2017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35.64, y: 61.2, z: 0}
+  m_LocalEulerAnglesHint: {x: 72.426, y: 0.651, z: 0}
 --- !u!114 &157207115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 130000
+  m_Intensity: 100000
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -355,19 +355,6 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
---- !u!114 &157207117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157207112}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1fd610460ab7cb4fbfb5b1d310e22db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 10
 --- !u!114 &157207118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049e0dd58c68a48468631f73efb42195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sunLight: {fileID: 157207113}
+  maxSunIntensity: 100000
 --- !u!1001 &166856951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1111,6 +1098,7 @@ MonoBehaviour:
   centerX: 0
   centerZ: 0
   loopLimit: 2
+  tileMultiplier: 10
 --- !u!4 &493455459
 Transform:
   m_ObjectHideFlags: 0
@@ -1173,7 +1161,8 @@ MonoBehaviour:
   - {fileID: 100000, guid: 0ee3f20eba7c1414a8508d1965a6706a, type: 3}
   - {fileID: 100000, guid: 2f66f74f1d9a5ea48beb0036581bc18d, type: 3}
   parentName: trees
-  objectQuantity: 3000
+  treeQuantity: 6000
+  houseQuantity: 1000
   xLimitB: 130
   xLimitU: 150
   zLimitB: 130
@@ -3589,7 +3578,6 @@ GameObject:
   - component: {fileID: 1913421754}
   - component: {fileID: 1913421753}
   - component: {fileID: 1913421752}
-  - component: {fileID: 1913421757}
   - component: {fileID: 1913421756}
   m_Layer: 5
   m_Name: Canvas
@@ -3692,18 +3680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a678b8bdf451c2247b78cf7bd9b8ac1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1913421757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913421751}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ca1e35047633c418ea64ad955199ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1983295033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4166738648700078, guid: 46dea74f7999f4c4f9d26ad24b8282c6,
@@ -3740,7 +3716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: 8ba92e2dd7f884a0f88b98fa2d235fe7, type: 2}
-  m_StaticLightingSkyUniqueID: 4
+  m_StaticLightingSkyUniqueID: 0
   m_StaticLightingCloudsUniqueID: 0
   m_StaticLightingVolumetricClouds: 0
 --- !u!4 &2013410475

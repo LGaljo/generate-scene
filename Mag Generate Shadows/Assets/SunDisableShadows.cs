@@ -3,8 +3,9 @@ using UnityEngine;
 public class SunDisableShadows : MonoBehaviour
 {
     // Reference to the light component
-    public Light sunLight;
-    float nonShadowIntensity = 78000f;
+    Light sunLight;
+    public float maxSunIntensity = 100000f;
+    Vector3 prevPosition = Vector3.up;
 
     public void Update()
     {
@@ -13,14 +14,19 @@ public class SunDisableShadows : MonoBehaviour
         {
             this.ToggleShadows();
         }
-        if (Input.GetKeyDown(KeyCode.O)) {
-            this.nonShadowIntensity += 1000;
-            sunLight.intensity = nonShadowIntensity;
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            this.RandomSunRotate();
         }
-        if (Input.GetKeyDown(KeyCode.L)) {
-            this.nonShadowIntensity -= 1000;
-            sunLight.intensity = nonShadowIntensity;
-        }
+    }
+
+    public void Start()
+    {
+        sunLight = GetComponent<Light>();
+        Debug.Log("start intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+        float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+        this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+        Debug.Log("start intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
     }
 
     // Start is called before the first frame update
@@ -41,8 +47,10 @@ public class SunDisableShadows : MonoBehaviour
         if (sunLight != null)
         {
             sunLight.shadows = LightShadows.Hard;
-            sunLight.transform.rotation = Quaternion.Euler(33f, 45f, 0f);
-            sunLight.intensity = 130000f;
+            sunLight.transform.eulerAngles = this.prevPosition;
+            float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+            this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+            Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else
         {
@@ -54,13 +62,43 @@ public class SunDisableShadows : MonoBehaviour
     {
         if (sunLight != null)
         {
+            //float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+            //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+
+            this.prevPosition = sunLight.transform.eulerAngles;
+
             sunLight.shadows = LightShadows.None;
-            sunLight.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            sunLight.intensity = this.nonShadowIntensity;
+            sunLight.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+
+            float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+            this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+
+            Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else
         {
             Debug.LogWarning("Light component not found on the GameObject.");
         }
+    }
+
+    public void RandomSunRotate()
+    {
+        // Generate a random angle within the specified range
+        float randomElevation = Random.Range(50f, 90f);
+        float randomAsimuth = Random.Range(0f, 360f);
+
+        // Convert the angle to a rotation
+        Vector3 sunRotation = new(randomElevation, randomAsimuth, 0);
+
+        // Apply the rotation to the directional light
+        this.sunLight.transform.eulerAngles = sunRotation;
+
+        Debug.Log("Set sun position to " + sunRotation.x);
+
+        float emissivity = Mathf.Cos((90f - randomElevation) * Mathf.Deg2Rad);
+        Debug.Log("Emissivity proportionality " + emissivity);
+
+        this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+        Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
     }
 }

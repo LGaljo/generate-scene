@@ -9,7 +9,8 @@ public class PlaceObjects : MonoBehaviour
     List<Vector3> treeSizes = new();
     List<Vector3> houseSizes = new();
     public string parentName = "trees";
-    public int objectQuantity = 3000;
+    public int treeQuantity = 6000;
+    public int houseQuantity = 2500;
     public float xLimitB = 130f;
     public float xLimitU = 150f;
     public float zLimitB = 130f;
@@ -103,11 +104,11 @@ public class PlaceObjects : MonoBehaviour
     {
         if (gameObjectName.Equals("trees"))
         {
-            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes);
+            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity);
         }
         if (gameObjectName.Equals("houses"))
         {
-            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes);
+            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity);
         }
     }
 
@@ -122,14 +123,14 @@ public class PlaceObjects : MonoBehaviour
 
                 int objectIdx = Random.Range(0, gameObjects.Length - 1);
                 Vector3 position = new(x + xtmp + this.centerX, (sizes[objectIdx].y) * scale, z + this.centerZ);
-                this.PlaceAsset(this.parent, gameObjects[objectIdx], position);
+                this.PlaceAsset(this.parent, gameObjects[objectIdx], position, this.scale);
             }
         }
     }
 
-    void PlaceAssetsInPolar(GameObject[] gameObjects, List<Vector3> sizes)
+    void PlaceAssetsInPolar(GameObject[] gameObjects, List<Vector3> sizes, int quantity)
     {
-        for (int i = 0; i < objectQuantity; i++)
+        for (int i = 0; i < quantity; i++)
         {
             float randomAngle = Random.Range(0f, 360f);
             float randomRadius = Random.Range(0, this.maxRadius);
@@ -139,15 +140,16 @@ public class PlaceObjects : MonoBehaviour
             float z = randomRadius * Mathf.Sin(Mathf.Deg2Rad * randomAngle) + this.centerZ;
             int objectIdx = Random.Range(0, gameObjects.Length - 1);
             Vector3 position;
+            float localScale = Random.Range(0.2f, 0.8f);
             if (gameObjects[objectIdx].GetComponent<BoxCollider>() != null)
             {
                 position = new(x, 0, z);
             }
             else
             {
-                position = new(x, (sizes[objectIdx].y / 2) * scale - 0.1f, z);
+                position = new(x, (sizes[objectIdx].y / 2) * localScale - 0.1f, z);
             }
-            this.PlaceAsset(this.parent, gameObjects[objectIdx], position);
+            this.PlaceAsset(this.parent, gameObjects[objectIdx], position, localScale);
         }
     }
 
@@ -159,7 +161,7 @@ public class PlaceObjects : MonoBehaviour
         }
     }
 
-    void PlaceAsset(GameObject parent, GameObject asset, Vector3 position)
+    void PlaceAsset(GameObject parent, GameObject asset, Vector3 position, float localScale)
     {
         // Check if the terrain exists
         if (Terrain.activeTerrain != null)
@@ -167,19 +169,18 @@ public class PlaceObjects : MonoBehaviour
             if (asset.GetComponent<BoxCollider>() != null)
             {
                 BoxCollider boxCollider = asset.GetComponent<BoxCollider>();
-                Ray ray = new Ray(position + boxCollider.center, Vector3.down);
-                RaycastHit hit;
+                Ray ray = new(position + boxCollider.center, Vector3.down);
 
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     position.y = hit.point.y;
                 }
             }
             // 0, 1, 2, or 3 (for 0, 90, 180, or 270 degrees)
-            float rotationAngle = Random.Range(0, 4) * 90f;
+            float rotationAngle = Random.Range(0, 4) * 90f + Random.Range(-10, 10);
             GameObject newAsset = Instantiate(asset, position, Quaternion.Euler(0f, rotationAngle, 0f), parent.transform);
             //Debug.Log(newAsset.transform.position);
-            newAsset.transform.localScale = new(scale, scale, scale);
+            newAsset.transform.localScale = new(localScale, localScale, localScale);
         }
         else
         {
@@ -204,7 +205,7 @@ public class PlaceObjects : MonoBehaviour
         // Custom action on '2' key presspress
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes);
+            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity);
         }
 
         // Custom action on '3' key presspress
@@ -216,7 +217,7 @@ public class PlaceObjects : MonoBehaviour
         // Custom action on '3' key presspress
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes);
+            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity);
         }
     }
 }
