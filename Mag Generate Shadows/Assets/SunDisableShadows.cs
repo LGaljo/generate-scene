@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class SunDisableShadows : MonoBehaviour
 {
@@ -100,5 +101,12 @@ public class SunDisableShadows : MonoBehaviour
 
         this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
         Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+
+        HDAdditionalLightData hdLightData = GetComponent<HDAdditionalLightData>();
+        if (hdLightData != null)
+        {
+            hdLightData.angularDiameter = Random.Range(0.5f, 4f);
+            Debug.Log("current angular dimension " + hdLightData.angularDiameter);
+        }
     }
 }
