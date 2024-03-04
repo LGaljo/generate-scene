@@ -80,8 +80,8 @@ public class OPCamera : MonoBehaviour
         {
             GameObject sun = GameObject.Find("Sun");
             SunDisableShadows sds = sun.GetComponent<SunDisableShadows>();
-            Light sunLight = sun.GetComponent<Light>();
-            sunLight.transform.position = new Vector3(0f, 0f, 0f);
+            //Light sunLight = sun.GetComponent<Light>();
+            //sunLight.transform.position = new Vector3(0f, 0f, 0f);
 
             PlaceObjects placeObjects = GetComponent<PlaceObjects>();
             placeObjects.PlaceAssetsInPolar("trees");
@@ -96,6 +96,7 @@ public class OPCamera : MonoBehaviour
                 if (s == 0)
                 {
                     sds.EnableShadows();
+                    sds.RandomSunRotate();
                 }
                 else
                 {
@@ -103,6 +104,7 @@ public class OPCamera : MonoBehaviour
                 }
                 for (int i = 0; i < 4; i++)
                 {
+                    sds.RandomSunRotate();
                     float x = 125f * (1 + this.idx) * Mathf.Cos(Mathf.Deg2Rad * angles[i]) + this.centerX;
                     float z = 125f * (1 + this.idx) * Mathf.Sin(Mathf.Deg2Rad * angles[i]) + this.centerZ;
                     orthoCamera.transform.position = new(x, 100f, z);
@@ -114,8 +116,20 @@ public class OPCamera : MonoBehaviour
             this.idx += 1;
         } else if (this.idx == this.loopLimit)
         {
-            this.idx += 1;
-            Debug.Log("Finished procedure");
+            GameObject terrain = GameObject.Find("Terrain");
+            TerrainScript ts = terrain.GetComponent<TerrainScript>();
+            int tidx = ts.ChangeTerrainMaterial();
+
+            // Reached loop limit per terrain layer, change layer material
+            if (tidx == ts.textures.Length)
+            {
+                this.idx += 1;
+                Debug.Log("Finished procedure");
+            } else
+            // Next terrain layer is available, repeat capture
+            {
+                this.idx = 0;
+            }
         }
     }
 

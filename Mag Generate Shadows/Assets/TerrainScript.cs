@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class TerrainScript : MonoBehaviour
 {
@@ -22,8 +19,9 @@ public class TerrainScript : MonoBehaviour
         }
     }
 
-    public void ChangeTerrainMaterial()
+    public int ChangeTerrainMaterial()
     {
+        int retval = this.idx + 1;
         idx = (idx + 1) % this.textures.Length;
         TerrainData terrainData = terrain.terrainData;
 
@@ -41,12 +39,7 @@ public class TerrainScript : MonoBehaviour
             Debug.LogError("No terrain layers found!");
         }
 
-        //TerrainLayer terrainLayer = new TerrainLayer();
-        //terrainLayer.diffuseTexture = this.textures[idx];
-        //terrainLayer.tileSize = new Vector2(300f, 300f);
-        //terrainLayer.tileOffset = new Vector2(550f, 550f);
-
-        //terrain.terrainData.terrainLayers = new TerrainLayer[] { terrainLayer };
+        return retval;
     }
 
     public string GetTerrainLayerName(int layer)
