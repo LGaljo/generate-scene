@@ -120,7 +120,6 @@ public class PlaceObjects : MonoBehaviour
             {
                 float xtmp = Random.Range(sizes[0].x * -0.1f, sizes[0].x * 0.1f);
                 //Debug.Log("Place an asset x: "+ xtmp + " z: "+z);
-
                 int objectIdx = Random.Range(0, gameObjects.Length - 1);
                 Vector3 position = new(x + xtmp + this.centerX, (sizes[objectIdx].y) * scale, z + this.centerZ);
                 this.PlaceAsset(this.parent, gameObjects[objectIdx], position, this.scale);
@@ -133,7 +132,7 @@ public class PlaceObjects : MonoBehaviour
         for (int i = 0; i < quantity; i++)
         {
             float randomAngle = Random.Range(0f, 360f);
-            float randomRadius = Random.Range(0, this.maxRadius);
+            float randomRadius = Random.Range(8, this.maxRadius);
 
             // Convert polar coordinates to Cartesian coordinates
             float x = randomRadius * Mathf.Cos(Mathf.Deg2Rad * randomAngle) + this.centerX;

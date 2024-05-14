@@ -7,10 +7,10 @@ using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class OPCamera : MonoBehaviour
+public class CaptureSystem : MonoBehaviour
 {
-    public string savePath;
-    public Camera orthoCamera;
+    private string savePath;
+    private Camera orthoCamera;
     public float orthographicSize = 50f;
 
     public float CameraMoveX = 10f;
@@ -76,60 +76,65 @@ public class OPCamera : MonoBehaviour
 
     void MoveModifyAndCapture()
     {
-        if (this.idx < this.loopLimit)
+        if (Time.frameCount % 60 == 0)
         {
-            GameObject sun = GameObject.Find("Sun");
-            SunDisableShadows sds = sun.GetComponent<SunDisableShadows>();
-            //Light sunLight = sun.GetComponent<Light>();
-            //sunLight.transform.position = new Vector3(0f, 0f, 0f);
-
-            PlaceObjects placeObjects = GetComponent<PlaceObjects>();
-            placeObjects.PlaceAssetsInPolar("trees");
-            placeObjects.PlaceAssetsInPolar("houses");
-
-            string shortHash = CalculateShortHash();
-
-            List<float> angles = new() { 0f, 90f, 180f, 270f };
-
-            for (int s = 0; s < 2; s++)
+            if (this.idx < this.loopLimit)
             {
-                if (s == 0)
+                GameObject sun = GameObject.Find("Sun");
+                SunDisableShadows sds = sun.GetComponent<SunDisableShadows>();
+                //Light sunLight = sun.GetComponent<Light>();
+                //sunLight.transform.position = new Vector3(0f, 0f, 0f);
+
+                PlaceObjects placeObjects = GetComponent<PlaceObjects>();
+                placeObjects.PlaceAssetsInPolar("trees");
+                placeObjects.PlaceAssetsInPolar("houses");
+
+                string shortHash = CalculateShortHash();
+
+                List<float> angles = new() { 0f, 90f, 180f, 270f };
+
+                for (int s = 0; s < 2; s++)
                 {
-                    sds.EnableShadows();
-                    sds.RandomSunRotate();
+                    if (s == 0)
+                    {
+                        sds.EnableShadows();
+                        sds.RandomSunRotate();
+                    }
+                    else
+                    {
+                        sds.DisableShadows();
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        sds.RandomSunRotate();
+                        float x = 125f * (1 + this.idx) * Mathf.Cos(Mathf.Deg2Rad * angles[i]) + this.centerX;
+                        float z = 125f * (1 + this.idx) * Mathf.Sin(Mathf.Deg2Rad * angles[i]) + this.centerZ;
+                        orthoCamera.transform.position = new(x, 100f, z);
+                        this.CaptureAndSave(shortHash);
+                    }
+                }
+
+                placeObjects.DestroyAllChildren();
+                this.idx += 1;
+            } else if (this.idx == this.loopLimit)
+            {
+                GameObject terrain = GameObject.Find("Terrain");
+                TerrainScript ts = terrain.GetComponent<TerrainScript>();
+                int tidx = ts.ChangeTerrainMaterial();
+
+                // Reached loop limit per terrain layer, change layer material
+                if (tidx == ts.textures.Length)
+                {
+                    this.idx += 1;
+                    Debug.Log("Finished procedure");
                 }
                 else
+                // Next terrain layer is available, repeat capture
                 {
-                    sds.DisableShadows();
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    sds.RandomSunRotate();
-                    float x = 125f * (1 + this.idx) * Mathf.Cos(Mathf.Deg2Rad * angles[i]) + this.centerX;
-                    float z = 125f * (1 + this.idx) * Mathf.Sin(Mathf.Deg2Rad * angles[i]) + this.centerZ;
-                    orthoCamera.transform.position = new(x, 100f, z);
-                    this.CaptureAndSave(shortHash);
+                    this.idx = 0;
                 }
             }
 
-            placeObjects.DestroyAllChildren();
-            this.idx += 1;
-        } else if (this.idx == this.loopLimit)
-        {
-            GameObject terrain = GameObject.Find("Terrain");
-            TerrainScript ts = terrain.GetComponent<TerrainScript>();
-            int tidx = ts.ChangeTerrainMaterial();
-
-            // Reached loop limit per terrain layer, change layer material
-            if (tidx == ts.textures.Length)
-            {
-                this.idx += 1;
-                Debug.Log("Finished procedure");
-            } else
-            // Next terrain layer is available, repeat capture
-            {
-                this.idx = 0;
-            }
         }
     }
 

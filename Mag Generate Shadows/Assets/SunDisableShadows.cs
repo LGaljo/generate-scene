@@ -105,7 +105,7 @@ public class SunDisableShadows : MonoBehaviour
         HDAdditionalLightData hdLightData = GetComponent<HDAdditionalLightData>();
         if (hdLightData != null)
         {
-            hdLightData.angularDiameter = Random.Range(0.5f, 4f);
+            hdLightData.angularDiameter = Random.Range(1f, 5f);
             Debug.Log("current angular dimension " + hdLightData.angularDiameter);
         }
     }
