@@ -10,7 +10,7 @@ public class SunDisableShadows : MonoBehaviour
 
     public void Update()
     {
-        // Custom action on 'U' key press
+        // Custom action on 'Z' key press
         if (Input.GetKeyDown(KeyCode.Z))
         {
             this.ToggleShadows();
@@ -51,6 +51,8 @@ public class SunDisableShadows : MonoBehaviour
             sunLight.transform.eulerAngles = this.prevPosition;
             float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
             this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+
+            Debug.Log("Enable shadows");
             Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else
@@ -74,6 +76,7 @@ public class SunDisableShadows : MonoBehaviour
             float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
             this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
+            Debug.Log("Disable shadows");
             Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else

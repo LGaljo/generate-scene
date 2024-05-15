@@ -285,7 +285,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   meteringMode:
     m_OverrideState: 1
     m_Value: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 13.688237
+    m_Value: 11.5
   compensation:
     m_OverrideState: 0
     m_Value: 2
