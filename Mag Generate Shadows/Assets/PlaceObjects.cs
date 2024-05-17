@@ -42,10 +42,7 @@ public class PlaceObjects : MonoBehaviour
         else
         {
             // Clear existing children of the parent GameObject
-            foreach (Transform child in this.parent.transform)
-            {
-                Destroy(child.gameObject);
-            }
+            this.DestroyAllChildren();
         }
     }
 
@@ -137,9 +134,14 @@ public class PlaceObjects : MonoBehaviour
             // Convert polar coordinates to Cartesian coordinates
             float x = randomRadius * Mathf.Cos(Mathf.Deg2Rad * randomAngle) + this.centerX;
             float z = randomRadius * Mathf.Sin(Mathf.Deg2Rad * randomAngle) + this.centerZ;
+
+            if (x < 0f || x > 500f || z < 0f || z > 500f)
+            {
+                continue;
+            }
             int objectIdx = Random.Range(0, gameObjects.Length - 1);
             Vector3 position;
-            float localScale = Random.Range(0.2f, 0.8f);
+            float localScale = Random.Range(0.1f, 0.5f);
             if (gameObjects[objectIdx].GetComponent<BoxCollider>() != null)
             {
                 position = new(x, 0, z);
@@ -154,9 +156,9 @@ public class PlaceObjects : MonoBehaviour
 
     public void DestroyAllChildren()
     {
-        foreach (Transform child in this.parent.transform)
+        for (int i = this.parent.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(child.gameObject);
+            Destroy(this.parent.transform.GetChild(i).gameObject);
         }
     }
 

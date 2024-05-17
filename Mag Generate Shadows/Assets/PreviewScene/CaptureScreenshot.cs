@@ -19,7 +19,7 @@ public class CaptureScreenshot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             string shortHash = CalculateShortHash();
             this.CaptureAndSave(shortHash);
@@ -32,7 +32,7 @@ public class CaptureScreenshot : MonoBehaviour
 
         GameObject terrain = GameObject.Find("Terrain");
 
-        GameObject gameObject = GameObject.Find("Main Camera");
+        GameObject gameObject = GameObject.Find("OrthoCamera");
         // Add a Camera component to the GameObject
         Camera camera = gameObject.GetComponent<Camera>();
 

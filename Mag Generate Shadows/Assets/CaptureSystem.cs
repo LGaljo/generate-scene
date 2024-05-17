@@ -76,7 +76,7 @@ public class CaptureSystem : MonoBehaviour
 
     void MoveModifyAndCapture()
     {
-        if (Time.frameCount % 60 == 0)
+        if (Time.frameCount % 15 == 0)
         {
             if (this.idx < this.loopLimit)
             {
