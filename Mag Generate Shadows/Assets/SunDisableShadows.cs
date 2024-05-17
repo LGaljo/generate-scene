@@ -88,7 +88,7 @@ public class SunDisableShadows : MonoBehaviour
     public void RandomSunRotate()
     {
         // Generate a random angle within the specified range
-        float randomElevation = Random.Range(50f, 90f);
+        float randomElevation = Random.Range(50f, 75f);
         float randomAsimuth = Random.Range(0f, 360f);
 
         // Convert the angle to a rotation
