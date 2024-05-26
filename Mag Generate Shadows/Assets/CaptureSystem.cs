@@ -13,6 +13,7 @@ public class CaptureSystem : MonoBehaviour
     private Camera orthoCamera;
     public float orthographicSize = 50f;
 
+    public float cameraPosY = 300f;
     public float CameraMoveX = 10f;
     public float CameraMoveZ = 10f;
 
@@ -39,7 +40,7 @@ public class CaptureSystem : MonoBehaviour
         this.CalculateTerrainCenter();
 
         // Set the camera position and rotation as needed
-        orthoCamera.transform.SetPositionAndRotation(new Vector3(this.centerX, 100f, this.centerZ), Quaternion.Euler(90f, 0f, 0f));
+        orthoCamera.transform.SetPositionAndRotation(new Vector3(this.centerX, this.cameraPosY, this.centerZ), Quaternion.Euler(90f, 0f, 0f));
     }
 
     // Update is called once per frame

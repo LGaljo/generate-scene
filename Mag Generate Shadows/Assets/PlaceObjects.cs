@@ -8,13 +8,11 @@ public class PlaceObjects : MonoBehaviour
     public GameObject[] houseAssets;
     List<Vector3> treeSizes = new();
     List<Vector3> houseSizes = new();
+    float terrainWidth = 0;
+    float terrainLength = 0;
     public string parentName = "trees";
     public int treeQuantity = 6000;
     public int houseQuantity = 2500;
-    public float xLimitB = 130f;
-    public float xLimitU = 150f;
-    public float zLimitB = 130f;
-    public float zLimitU = 150f;
     public float maxRadius = 400;
     public float centerX = 0;
     public float centerZ = 0;
@@ -65,19 +63,18 @@ public class PlaceObjects : MonoBehaviour
     {
         // Assuming the script is attached to the GameObject with the Terrain component
         GameObject go = GameObject.Find("Terrain");
-        Terrain terrain = go.GetComponent<Terrain>();
-
-        if (terrain != null)
+        
+        if (go.TryGetComponent<Terrain>(out var terrain))
         {
             TerrainData terrainData = terrain.terrainData;
 
             // Get the size of the terrain
-            float terrainWidth = terrainData.size.x;
-            float terrainLength = terrainData.size.z;
+            this.terrainWidth = terrainData.size.x;
+            this.terrainLength = terrainData.size.z;
 
             // Calculate the center of the terrain
-            this.centerX = terrainWidth / 2f;
-            this.centerZ = terrainLength / 2f;
+            this.centerX = this.terrainWidth / 2f;
+            this.centerZ = this.terrainLength / 2f;
         }
         else
         {
@@ -89,11 +86,11 @@ public class PlaceObjects : MonoBehaviour
     {
         if (gameObjectName.Equals("trees"))
         {
-            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes);
+            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity);
         }
         if (gameObjectName.Equals("houses"))
         {
-            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes);
+            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity);
         }
     }
 
@@ -109,18 +106,17 @@ public class PlaceObjects : MonoBehaviour
         }
     }
 
-    void PlaceAssetsInCartesian(GameObject[] gameObjects, List<Vector3> sizes)
+    void PlaceAssetsInCartesian(GameObject[] gameObjects, List<Vector3> sizes, int quantity)
     {
-        for (float x = xLimitB; x < xLimitU; x += Random.Range(sizes[0].x * 0.05f, sizes[0].x * 0.25f))
+        for (int i = 0; i < quantity; i++)
         {
-            for (float z = zLimitB; z < zLimitU; z += Random.Range(sizes[0].z * 0.05f, sizes[0].z * 0.25f))
-            {
-                float xtmp = Random.Range(sizes[0].x * -0.1f, sizes[0].x * 0.1f);
-                //Debug.Log("Place an asset x: "+ xtmp + " z: "+z);
-                int objectIdx = Random.Range(0, gameObjects.Length - 1);
-                Vector3 position = new(x + xtmp + this.centerX, (sizes[objectIdx].y) * scale, z + this.centerZ);
-                this.PlaceAsset(this.parent, gameObjects[objectIdx], position, this.scale);
-            }
+            int objectIdx = Random.Range(0, gameObjects.Length - 1);
+            float x = Random.Range(0, this.terrainWidth);
+            float z = Random.Range(0, this.terrainLength);
+            float scale = Random.Range(this.scale * 0.8f, this.scale * 1.2f);
+
+            Vector3 position = new(x, (sizes[objectIdx].y) * scale, z);
+            this.PlaceAsset(this.parent, gameObjects[objectIdx], position, this.scale);
         }
     }
 
@@ -135,13 +131,13 @@ public class PlaceObjects : MonoBehaviour
             float x = randomRadius * Mathf.Cos(Mathf.Deg2Rad * randomAngle) + this.centerX;
             float z = randomRadius * Mathf.Sin(Mathf.Deg2Rad * randomAngle) + this.centerZ;
 
-            if (x < 0f || x > 500f || z < 0f || z > 500f)
+            if (x < 0f || x > this.terrainLength || z < 0f || z > this.terrainWidth)
             {
                 continue;
             }
             int objectIdx = Random.Range(0, gameObjects.Length - 1);
             Vector3 position;
-            float localScale = Random.Range(0.1f, 0.5f);
+            float localScale = Random.Range(0.5f * this.scale, 1f * this.scale);
             if (gameObjects[objectIdx].GetComponent<BoxCollider>() != null)
             {
                 position = new(x, 0, z);
@@ -198,25 +194,25 @@ public class PlaceObjects : MonoBehaviour
         }
 
         // Custom action on '1' key press
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && this.treeAssets.Length > 0)
         {
-            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes);
+            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity);
         }
 
         // Custom action on '2' key presspress
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && this.treeAssets.Length > 0)
         {
             this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity);
         }
 
         // Custom action on '3' key presspress
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) && this.houseAssets.Length > 0)
         {
-            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes);
+            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity);
         }
 
         // Custom action on '3' key presspress
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && this.houseAssets.Length > 0)
         {
             this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity);
         }

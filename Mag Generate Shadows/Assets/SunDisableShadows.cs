@@ -5,7 +5,7 @@ public class SunDisableShadows : MonoBehaviour
 {
     // Reference to the light component
     Light sunLight;
-    public float maxSunIntensity = 100000f;
+    public float maxSunIntensity = 90000f;
     Vector3 prevPosition = Vector3.up;
 
     public void Update()
