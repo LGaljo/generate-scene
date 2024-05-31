@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d08ce26990eb1a4a9177b860541e702, type: 3}
   m_Name: Exposure
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   meteringMode:
     m_OverrideState: 0
     m_Value: 2
@@ -24,10 +24,10 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 10.984671
+    m_Value: 10.218663
   compensation:
-    m_OverrideState: 1
-    m_Value: 2
+    m_OverrideState: 0
+    m_Value: 3.71
   limitMin:
     m_OverrideState: 0
     m_Value: -1
@@ -35,27 +35,27 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 14
   curveMap:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -10
-        value: -10
-        inSlope: 0
-        outSlope: 1
+        time: -101.86066
+        value: -22.117249
+        inSlope: 0.5246573
+        outSlope: 0.5246573
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.042801395
       - serializedVersion: 3
-        time: 20
-        value: 20
-        inSlope: 1
-        outSlope: 0
+        time: 104.55853
+        value: 17.103012
+        inSlope: 0.03298601
+        outSlope: 0.03298601
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.39348292
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -119,7 +119,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 3
   adaptationSpeedLightToDark:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   weightTextureMask:
     m_OverrideState: 0
@@ -188,10 +188,10 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 7.05
   multiplier:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 5.08
   upperHemisphereLuxValue:
     m_OverrideState: 1
     m_Value: 2.3458087
@@ -200,10 +200,10 @@ MonoBehaviour:
     m_Value: {x: 0.29308692, y: 0.37061915, z: 0.5}
   desiredLuxValue:
     m_OverrideState: 0
-    m_Value: 20000
+    m_Value: 19972.8
   updateMode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   updatePeriod:
     m_OverrideState: 0
     m_Value: 0
@@ -306,9 +306,9 @@ MonoBehaviour:
     m_Value: 1
   cloudType:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   skyAmbientMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   windOrientation:
     m_OverrideState: 0
