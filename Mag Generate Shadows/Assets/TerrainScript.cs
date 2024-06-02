@@ -5,6 +5,7 @@ public class TerrainScript : MonoBehaviour
     public Texture2D[] textures;
     public int idx = 0;
     public Terrain terrain;
+    public Material terrainMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,12 @@ public class TerrainScript : MonoBehaviour
         int retval = this.idx + 1;
         idx = (idx + 1) % this.textures.Length;
         TerrainData terrainData = terrain.terrainData;
+
+        // For currently used terrain material which has shader hdrp/lit
+        if (terrainMaterial != null)
+        {
+            terrainMaterial.mainTexture = this.textures[idx];
+        }
 
         // Check if there is at least one terrain layer
         if (terrainData.terrainLayers.Length > 0)

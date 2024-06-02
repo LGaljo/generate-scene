@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 318.56448, g: 405.15314, b: 430.48993, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1091,6 +1090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orthographicSize: 15
+  cameraPosY: 300
   CameraMoveX: 25
   CameraMoveZ: 25
   centerX: 0
@@ -1161,10 +1161,6 @@ MonoBehaviour:
   parentName: trees
   treeQuantity: 4000
   houseQuantity: 600
-  xLimitB: 130
-  xLimitU: 150
-  zLimitB: 130
-  zLimitU: 150
   maxRadius: 300
   centerX: 0
   centerZ: 0
@@ -3040,6 +3036,7 @@ Terrain:
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 4848
+  m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 0
   m_DrawHeightmap: 1
@@ -3623,7 +3620,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 168.2
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

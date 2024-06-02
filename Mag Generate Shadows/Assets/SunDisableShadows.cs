@@ -73,8 +73,8 @@ public class SunDisableShadows : MonoBehaviour
             sunLight.shadows = LightShadows.None;
             sunLight.transform.eulerAngles = new Vector3(90f, 0f, 0f);
 
-            float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
-            this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+            //float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+            //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
             Debug.Log("Disable shadows");
             Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
@@ -108,7 +108,7 @@ public class SunDisableShadows : MonoBehaviour
         HDAdditionalLightData hdLightData = GetComponent<HDAdditionalLightData>();
         if (hdLightData != null)
         {
-            hdLightData.angularDiameter = Random.Range(1f, 5f);
+            hdLightData.angularDiameter = Random.Range(1f, 10f);
             Debug.Log("current angular dimension " + hdLightData.angularDiameter);
         }
     }

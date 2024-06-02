@@ -24,10 +24,10 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 10.218663
+    m_Value: 12.3464
   compensation:
     m_OverrideState: 0
-    m_Value: 3.71
+    m_Value: -2.05
   limitMin:
     m_OverrideState: 0
     m_Value: -1
@@ -188,10 +188,10 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 0
-    m_Value: 7.05
+    m_Value: 12
   multiplier:
-    m_OverrideState: 1
-    m_Value: 5.08
+    m_OverrideState: 0
+    m_Value: 0.15
   upperHemisphereLuxValue:
     m_OverrideState: 1
     m_Value: 2.3458087
@@ -199,11 +199,11 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {x: 0.29308692, y: 0.37061915, z: 0.5}
   desiredLuxValue:
-    m_OverrideState: 0
-    m_Value: 19972.8
+    m_OverrideState: 1
+    m_Value: 1213
   updateMode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   updatePeriod:
     m_OverrideState: 0
     m_Value: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   cloudType:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   skyAmbientMode:
     m_OverrideState: 1
