@@ -1509,12 +1509,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
-  - {fileID: 2800000, guid: ee82f82cdd88d94408b5e50ca5a2bb9a, type: 3}
-  - {fileID: 2800000, guid: 2b09f9ac04a48654e8a44fec73c097de, type: 3}
-  - {fileID: 2800000, guid: 5cc3e4379da00c54e86fbaeb0ca1a040, type: 3}
-  - {fileID: 2800000, guid: 76b615b030ed62945aa8943129b4fe91, type: 3}
-  - {fileID: 2800000, guid: 41cc6573d767a68499b121837851ff1f, type: 3}
-  - {fileID: 2800000, guid: 99d53cc40c8fc9a479ec32e8ea20792c, type: 3}
+  - {fileID: 2800000, guid: ce1bf87eb052e0748a89dd552526385b, type: 3}
+  - {fileID: 2800000, guid: 1be83657bf65e5942949122e49d67579, type: 3}
+  - {fileID: 2800000, guid: 079bc6e089508494284b7fb7f830a0a7, type: 3}
+  - {fileID: 2800000, guid: a2aefdcf09b882149be7ee12dd9ca76d, type: 3}
+  - {fileID: 2800000, guid: b0dcc85279b690c4f9de5799ab9ce704, type: 3}
+  - {fileID: 2800000, guid: 814f94c3d0c2a1f498be0a1359576d72, type: 3}
   idx: 0
   terrain: {fileID: 759970698}
   terrainMaterial: {fileID: 2100000, guid: b918953ede214844989075ae9988213e, type: 2}
@@ -3150,9 +3150,7 @@ MonoBehaviour:
   parentName: trees
   treeQuantity: 20
   houseQuantity: 2
-  maxRadius: 150
-  centerX: 125
-  centerZ: 125
+  maxRadius: 20
   scale: 5
 --- !u!114 &1681417875
 MonoBehaviour:
@@ -3166,13 +3164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66829faf31e5f7d4681704be4aa076b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orthographicSize: 100
+  orthographicSize: 80
   cameraPosY: 300
   CameraMoveX: 10
   CameraMoveZ: 10
-  centerX: 125
-  centerZ: 125
-  loopLimit: 2
+  loopLimit: 1
   tileMultiplier: 10
 --- !u!1 &1686583229 stripped
 GameObject:

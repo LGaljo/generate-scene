@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,16 +11,18 @@ public class CaptureSystem_SmallScene : MonoBehaviour
     private Camera orthoCamera;
     public float orthographicSize = 50f;
 
-    public float cameraPosY = 300f;
+    float cameraPosY = 300f;
     public float CameraMoveX = 10f;
     public float CameraMoveZ = 10f;
 
-    public float centerX = 0;
-    public float centerZ = 0;
+    private float centerX = 0;
+    private float centerZ = 0;
 
     int idx = 100;
     public int loopLimit = 20;
     public int tileMultiplier = 10;
+
+    private ArrayList pos;
 
     private GameObject sun;
     private SunDisableShadows sds;
@@ -49,10 +50,9 @@ public class CaptureSystem_SmallScene : MonoBehaviour
         // Adjust the orthographic size (height of the view)
         this.orthoCamera.orthographicSize = this.orthographicSize; // Adjust this value based on your scene requirements
 
-        // Set the camera position and rotation as needed
-        this.orthoCamera.transform.SetPositionAndRotation(new Vector3(this.centerX, this.cameraPosY, this.centerZ), Quaternion.Euler(90f, 0f, 0f));
-
         this.placeObjects = GetComponent<PlaceObjects>();
+
+        this.MoveCamera(new Vector3(this.centerX, this.cameraPosY, this.centerZ), 0f);
 
         this.CalculateTerrainCenter();
     }
@@ -68,6 +68,8 @@ public class CaptureSystem_SmallScene : MonoBehaviour
             float terrainLength = terrainData.size.z;
 
             // Calculate the center of the terrain
+            //this.centerX = terrainWidth / 2f + UnityEngine.Random.Range(-25, 25);
+            //this.centerZ = terrainLength / 2f + UnityEngine.Random.Range(-25, 25);
             this.centerX = terrainWidth / 2f;
             this.centerZ = terrainLength / 2f;
         }
@@ -77,11 +79,22 @@ public class CaptureSystem_SmallScene : MonoBehaviour
         }
     }
 
-    void MoveCamera(Vector3 magnitude)
+    void MoveCamera(Vector3 magnitude, float rotation)
     {
         Vector3 tmp = new(orthoCamera.transform.position.x + magnitude.x, orthoCamera.transform.position.y, orthoCamera.transform.position.z + magnitude.z);
         // Set the camera position and rotation as needed
-        this.orthoCamera.transform.SetPositionAndRotation(tmp, Quaternion.Euler(90f, 0f, 0f));
+        this.orthoCamera.transform.SetPositionAndRotation(tmp, Quaternion.Euler(90f, rotation, 0f));
+        Debug.Log("Move to " + tmp);
+        //this.orthoCamera.transform.SetPositionAndRotation(tmp, Quaternion.Euler(90f, 0f, 0f));
+    }
+
+    void MoveCameraAbsolute(Vector3 magnitude, float rotation)
+    {
+        Vector3 tmp = new(this.centerX + magnitude.x, orthoCamera.transform.position.y, this.centerZ + magnitude.z);
+        // Set the camera position and rotation as needed
+        this.orthoCamera.transform.SetPositionAndRotation(tmp, Quaternion.Euler(90f, rotation, 0f));
+        Debug.Log("Move to " + tmp);
+        //this.orthoCamera.transform.SetPositionAndRotation(tmp, Quaternion.Euler(90f, 0f, 0f));
     }
 
     void CaptureAndSave(string shortHash)
@@ -165,18 +178,37 @@ public class CaptureSystem_SmallScene : MonoBehaviour
                 this.placeObjects.PlaceAssetsInCartesian("trees");
                 this.placeObjects.PlaceAssetsInCartesian("houses");
 
-                string shortHash = CalculateShortHash();
+                for (int i = 0; i < 4; i++)
+                {
+                    string shortHash = CalculateShortHash();
 
-                // Different shadow locations
-                // Capture w/ and w/o shadows
-                this.sds.EnableShadows();
-                this.sds.RandomSunRotate();
-                this.CaptureAndSave(shortHash);
-                this.sds.DisableShadows();
-                this.CaptureAndSave(shortHash);
+                    if (i ==  0)
+                    {
+                        this.MoveCameraAbsolute(new Vector3(40f, 0, 40f), 90f * i);
+                    }
+                    else if (i == 1)
+                    {
+                        this.MoveCameraAbsolute(new Vector3(40f, 0, -40f), 90f * i);
+                    }
+                    else if (i == 2)
+                    {
+                        this.MoveCameraAbsolute(new Vector3(-40f, 0f, 40f), 90f * i);
+                    }
+                    else
+                    {
+                        this.MoveCameraAbsolute(new Vector3(-40f, 0, -40f), 90f * i);
+                    }
+
+                    // Different shadow locations
+                    // Capture w/ and w/o shadows
+                    this.sds.EnableShadows();
+                    this.sds.RandomSunRotate();
+                    this.CaptureAndSave(shortHash);
+                    this.sds.DisableShadows();
+                    this.CaptureAndSave(shortHash);
+                }
 
                 this.placeObjects.DestroyAllChildren();
-                //}
 
                 this.idx += 1;
             }
@@ -196,7 +228,6 @@ public class CaptureSystem_SmallScene : MonoBehaviour
                     this.idx = 0;
                 }
             }
-
         }
     }
 
@@ -216,19 +247,19 @@ public class CaptureSystem_SmallScene : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            this.MoveCamera(new Vector3(this.CameraMoveX, 0f, 0f));
+            this.MoveCamera(new Vector3(this.CameraMoveX, 0f, 0f), 0f);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            this.MoveCamera(new Vector3(0f, 0f, -this.CameraMoveZ));
+            this.MoveCamera(new Vector3(0f, 0f, -this.CameraMoveZ), 0f);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            this.MoveCamera(new Vector3(-this.CameraMoveX, 0f, 0f));
+            this.MoveCamera(new Vector3(-this.CameraMoveX, 0f, 0f), 0f);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            this.MoveCamera(new Vector3(0f, 0f, this.CameraMoveZ));
+            this.MoveCamera(new Vector3(0f, 0f, this.CameraMoveZ), 0f);
         }
     }
 }

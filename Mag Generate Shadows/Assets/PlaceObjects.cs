@@ -10,13 +10,15 @@ public class PlaceObjects : MonoBehaviour
     List<Vector3> houseSizes = new();
     float terrainWidth = 0;
     float terrainLength = 0;
+
     public string parentName = "trees";
     public int treeQuantity = 6000;
     public int houseQuantity = 2500;
     public float maxRadius = 400;
-    public float centerX = 0;
-    public float centerZ = 0;
     public float scale = 0.25f;
+
+    private float centerX = 0;
+    private float centerZ = 0;
 
     // Start is called before the first frame update
     void Start()
