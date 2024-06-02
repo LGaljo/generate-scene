@@ -20,13 +20,14 @@ public class CaptureSystem_SmallScene : MonoBehaviour
     public float centerZ = 0;
 
     int idx = 100;
-    public int loopLimit = 2;
+    public int loopLimit = 20;
     public int tileMultiplier = 10;
 
     private GameObject sun;
     private SunDisableShadows sds;
     private Terrain terrain;
     private TerrainScript terrainScript;
+    private PlaceObjects placeObjects;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +51,8 @@ public class CaptureSystem_SmallScene : MonoBehaviour
 
         // Set the camera position and rotation as needed
         this.orthoCamera.transform.SetPositionAndRotation(new Vector3(this.centerX, this.cameraPosY, this.centerZ), Quaternion.Euler(90f, 0f, 0f));
+
+        this.placeObjects = GetComponent<PlaceObjects>();
 
         this.CalculateTerrainCenter();
     }
@@ -92,7 +95,7 @@ public class CaptureSystem_SmallScene : MonoBehaviour
 
         float x = orthoCamera.transform.position.x;
         float z = orthoCamera.transform.position.z;
-        string savePath = System.IO.Path.Combine(folderPath, $"{layerName}_x{x}-z{z}-{shadowType}-{shortHash}.png");
+        string savePath = System.IO.Path.Combine(folderPath, $"{layerName}_{shortHash}-x{x}-z{z}-{shadowType}.png");
 
         // Create a RenderTexture to temporarily store the camera's view
         RenderTexture renderTexture = new(256 * this.tileMultiplier, 256 * this.tileMultiplier, 24);
@@ -153,33 +156,27 @@ public class CaptureSystem_SmallScene : MonoBehaviour
 
     void MoveModifyAndCapture()
     {
-        if (Time.frameCount % 15 == 0)
+        // 5 frames to render
+        if (Time.frameCount % 5 == 0)
         {
             if (this.idx < this.loopLimit)
             {
-                PlaceObjects placeObjects = GetComponent<PlaceObjects>();
-
                 // Different arrangements of objects on map
-                for (int i = 0; i < 2; i++)
-                {
-                    placeObjects.PlaceAssetsInCartesian("trees");
-                    placeObjects.PlaceAssetsInCartesian("houses");
+                this.placeObjects.PlaceAssetsInCartesian("trees");
+                this.placeObjects.PlaceAssetsInCartesian("houses");
 
-                    string shortHash = CalculateShortHash();
+                string shortHash = CalculateShortHash();
 
-                    // Different shadow locations
-                    // Capture w/ and w/o shadows
-                    for (int j = 0; j < 2; j++)
-                    {
-                        this.sds.EnableShadows();
-                        this.sds.RandomSunRotate();
-                        this.CaptureAndSave(shortHash);
-                        this.sds.DisableShadows();
-                        this.CaptureAndSave(shortHash);
+                // Different shadow locations
+                // Capture w/ and w/o shadows
+                this.sds.EnableShadows();
+                this.sds.RandomSunRotate();
+                this.CaptureAndSave(shortHash);
+                this.sds.DisableShadows();
+                this.CaptureAndSave(shortHash);
 
-                        placeObjects.DestroyAllChildren();
-                    }
-                }
+                this.placeObjects.DestroyAllChildren();
+                //}
 
                 this.idx += 1;
             }

@@ -13,6 +13,7 @@ public class TerrainScript : MonoBehaviour
         if (terrain == null)
         {
             Debug.LogError("Terrain component not found!");
+            terrainMaterial.mainTexture = this.textures[idx];
         }
         else
         {

@@ -152,6 +152,7 @@ public class PlaceObjects : MonoBehaviour
 
     public void DestroyAllChildren()
     {
+        //Debug.Log("Destroy " + this.parent.transform.childCount + " children");
         for (int i = this.parent.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(this.parent.transform.GetChild(i).gameObject);

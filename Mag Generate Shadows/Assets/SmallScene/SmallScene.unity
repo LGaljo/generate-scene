@@ -3150,7 +3150,7 @@ MonoBehaviour:
   parentName: trees
   treeQuantity: 20
   houseQuantity: 2
-  maxRadius: 200
+  maxRadius: 150
   centerX: 125
   centerZ: 125
   scale: 5

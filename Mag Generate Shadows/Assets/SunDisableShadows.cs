@@ -53,7 +53,7 @@ public class SunDisableShadows : MonoBehaviour
             this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
             Debug.Log("Enable shadows");
-            Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+            //Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else
         {
@@ -77,7 +77,7 @@ public class SunDisableShadows : MonoBehaviour
             //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
             Debug.Log("Disable shadows");
-            Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+            //Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
         }
         else
         {
@@ -97,19 +97,19 @@ public class SunDisableShadows : MonoBehaviour
         // Apply the rotation to the directional light
         this.sunLight.transform.eulerAngles = sunRotation;
 
-        Debug.Log("Set sun position to " + sunRotation.x);
+        //Debug.Log("Set sun position to " + sunRotation.x);
 
         float emissivity = Mathf.Cos((90f - randomElevation) * Mathf.Deg2Rad);
-        Debug.Log("Emissivity proportionality " + emissivity);
+        //Debug.Log("Emissivity proportionality " + emissivity);
 
         this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
-        Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+        //Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
 
         HDAdditionalLightData hdLightData = GetComponent<HDAdditionalLightData>();
         if (hdLightData != null)
         {
             hdLightData.angularDiameter = Random.Range(1f, 10f);
-            Debug.Log("current angular dimension " + hdLightData.angularDiameter);
+            //Debug.Log("current angular dimension " + hdLightData.angularDiameter);
         }
     }
 }
