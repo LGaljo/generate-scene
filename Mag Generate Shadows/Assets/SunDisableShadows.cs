@@ -1,5 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using static UnityEngine.InputManagerEntry;
 
 public class SunDisableShadows : MonoBehaviour
 {
@@ -7,6 +10,10 @@ public class SunDisableShadows : MonoBehaviour
     Light sunLight;
     public float maxSunIntensity = 90000f;
     Vector3 prevPosition = Vector3.up;
+
+    public Volume volume;
+    HDRISky hdriSky;
+    public float initialExposureComp = 12f;
 
     public void Update()
     {
@@ -28,6 +35,17 @@ public class SunDisableShadows : MonoBehaviour
         float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
         this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
         Debug.Log("start intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
+
+        Debug.Log(volume);
+        if (volume != null)
+        {
+            volume.profile.TryGet<HDRISky>(out this.hdriSky);
+            if (this.hdriSky != null)
+            {
+                Debug.Log(this.hdriSky);
+                this.hdriSky.exposure.value = initialExposureComp;
+            }
+        }
     }
 
     // Start is called before the first frame update
@@ -48,9 +66,9 @@ public class SunDisableShadows : MonoBehaviour
         if (sunLight != null)
         {
             sunLight.shadows = LightShadows.Hard;
-            sunLight.transform.eulerAngles = this.prevPosition;
-            float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
-            this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
+            //sunLight.transform.eulerAngles = this.prevPosition;
+            //float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
+            //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
             Debug.Log("Enable shadows");
             //Debug.Log("current intensity " + this.sunLight.intensity + " sun at " + sunLight.transform.eulerAngles);
@@ -68,10 +86,10 @@ public class SunDisableShadows : MonoBehaviour
             //float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
             //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
 
-            this.prevPosition = sunLight.transform.eulerAngles;
+            //this.prevPosition = sunLight.transform.eulerAngles;
 
             sunLight.shadows = LightShadows.None;
-            sunLight.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+            //sunLight.transform.eulerAngles = new Vector3(90f, 0f, 0f);
 
             //float emissivity = Mathf.Cos((90f - sunLight.transform.eulerAngles.x) * Mathf.Deg2Rad);
             //this.sunLight.intensity = this.maxSunIntensity * (2 - emissivity);
@@ -88,7 +106,7 @@ public class SunDisableShadows : MonoBehaviour
     public void RandomSunRotate()
     {
         // Generate a random angle within the specified range
-        float randomElevation = Random.Range(50f, 75f);
+        float randomElevation = Random.Range(20f, 75f);
         float randomAsimuth = Random.Range(0f, 360f);
 
         // Convert the angle to a rotation
@@ -108,8 +126,10 @@ public class SunDisableShadows : MonoBehaviour
         HDAdditionalLightData hdLightData = GetComponent<HDAdditionalLightData>();
         if (hdLightData != null)
         {
-            hdLightData.angularDiameter = Random.Range(1f, 6f);
+            hdLightData.angularDiameter = Random.Range(0.5f, 3f);
             //Debug.Log("current angular dimension " + hdLightData.angularDiameter);
         }
+
+        this.hdriSky.exposure.value = Random.Range(11f, 14f);
     }
 }

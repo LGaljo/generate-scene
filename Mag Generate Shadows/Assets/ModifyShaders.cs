@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ModifyShaders : MonoBehaviour
 {
@@ -15,27 +16,69 @@ public class ModifyShaders : MonoBehaviour
             foreach (Transform gameObject in models.transform)
             {
                 // Change shader of that object
-                this.ChangeShaderObject(gameObject);
+                //this.ChangeShaderObject(gameObject);
+                this.SetShadowType(gameObject);
 
                 // Check for any children objects in that oobject
                 foreach (Transform child in gameObject.transform)
                 {
                     // And change its shader too
-                    this.ChangeShaderObject(child);
+                    //this.ChangeShaderObject(child);
+                    this.SetShadowType(child);
                 }
             }
         }
 
-        if (this.isUnlit)
+        models = GameObject.Find("houses");
+
+        // Check if the object was found
+        if (models != null)
         {
-            RenderSettings.sun.shadows = LightShadows.Soft;
-        }
-        else
-        {
-            RenderSettings.sun.shadows = LightShadows.None;
+            // Iterate over object in folder models
+            foreach (Transform gameObject in models.transform)
+            {
+                // Change shader of that object
+                //this.ChangeShaderObject(gameObject);
+                this.SetShadowType(gameObject);
+
+                // Check for any children objects in that oobject
+                foreach (Transform child in gameObject.transform)
+                {
+                    // And change its shader too
+                    //this.ChangeShaderObject(child);
+                    this.SetShadowType(child);
+                }
+            }
         }
 
+        //if (this.isUnlit)
+        //{
+        //    RenderSettings.sun.shadows = LightShadows.Soft;
+        //}
+        //else
+        //{
+        //    RenderSettings.sun.shadows = LightShadows.None;
+        //}
+
         this.isUnlit = !this.isUnlit;
+    }
+
+    private void SetShadowType(Transform gameObject)
+    {
+        Renderer renderer = gameObject.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            if (this.isUnlit)
+            {
+                Debug.Log("Shadows Only");
+                renderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
+            else
+            {
+                Debug.Log("Shadows On");
+                renderer.shadowCastingMode = ShadowCastingMode.On;
+            }
+        }
     }
 
     private void ChangeShaderObject(Transform gameObject)
@@ -99,15 +142,37 @@ public class ModifyShaders : MonoBehaviour
         }
     }
 
+    private void ChangeHueSaturation()
+    {
+        GameObject models = GameObject.Find("houses");
+
+        // Check if the object was found
+        if (models != null)
+        {
+            // Iterate over object in folder models
+            foreach (Transform gameObject in models.transform)
+            {
+                Renderer renderer = gameObject.GetComponent<Renderer>();
+                foreach (Material mat in renderer.materials)
+                {
+                    Color c = new(Random.Range(0.6f, 1f), Random.Range(0.6f, 1f), Random.Range(0.6f, 1f));
+                    mat.SetColor("_BaseColor", c);
+                }
+            }
+        }
+    }
+
 
     public void Update()
     {
-        //// Custom action on 'U' key press
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    GameObject gameObject = GameObject.Find("Button");
-        //    ModifyShaders ms = gameObject.GetComponent<ModifyShaders>();
-        //    ms.OnButtonClick();
-        //}
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            this.OnButtonClick();
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            this.ChangeHueSaturation();
+        }
     }
 }

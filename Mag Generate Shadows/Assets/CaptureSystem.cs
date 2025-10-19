@@ -87,8 +87,8 @@ public class CaptureSystem : MonoBehaviour
                 //sunLight.transform.position = new Vector3(0f, 0f, 0f);
 
                 PlaceObjects placeObjects = GetComponent<PlaceObjects>();
-                placeObjects.PlaceAssetsInPolar("trees");
-                placeObjects.PlaceAssetsInPolar("houses");
+                placeObjects.PlaceAssetsInPolar("trees", true);
+                placeObjects.PlaceAssetsInPolar("houses", true);
 
                 string shortHash = CalculateShortHash();
 
@@ -115,7 +115,9 @@ public class CaptureSystem : MonoBehaviour
                     }
                 }
 
-                placeObjects.DestroyAllChildren();
+                placeObjects.DestroyAllChildren("trees");
+                placeObjects.DestroyAllChildren("houses");
+
                 this.idx += 1;
             } else if (this.idx == this.loopLimit)
             {

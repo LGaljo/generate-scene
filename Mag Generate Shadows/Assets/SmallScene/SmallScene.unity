@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 871.52844, g: 1285.1298, b: 1751.5889, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1459,7 +1460,6 @@ Terrain:
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
-  m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
@@ -1509,13 +1509,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
-  - {fileID: 2800000, guid: ce1bf87eb052e0748a89dd552526385b, type: 3}
-  - {fileID: 2800000, guid: 1be83657bf65e5942949122e49d67579, type: 3}
-  - {fileID: 2800000, guid: 079bc6e089508494284b7fb7f830a0a7, type: 3}
-  - {fileID: 2800000, guid: a2aefdcf09b882149be7ee12dd9ca76d, type: 3}
-  - {fileID: 2800000, guid: b0dcc85279b690c4f9de5799ab9ce704, type: 3}
-  - {fileID: 2800000, guid: 814f94c3d0c2a1f498be0a1359576d72, type: 3}
-  idx: 0
+  - {fileID: 2800000, guid: c274de3e4bb05724a8d48b82dd68e3f6, type: 3}
+  - {fileID: 2800000, guid: 84205a6bd565ab74985d15225c585f7f, type: 3}
+  - {fileID: 2800000, guid: 6a3fdba14064caa4d93e3bc5a54b45db, type: 3}
+  - {fileID: 2800000, guid: 5bbebc46f4c08db43beb7211f2ed0d05, type: 3}
+  - {fileID: 2800000, guid: fc179a440a25ea84ab2a0db130f7b343, type: 3}
+  - {fileID: 2800000, guid: d18cd69b37bae1a4e977d649bde6bb1a, type: 3}
+  - {fileID: 2800000, guid: 5f197f686c5453545a6e30287bc65d7d, type: 3}
+  - {fileID: 2800000, guid: fbf7331ac97740c46b894b55f3be6371, type: 3}
+  - {fileID: 2800000, guid: e8a16a3c9eeb720449ee87fd1ae18e29, type: 3}
+  - {fileID: 2800000, guid: 7e9c908273a278646a64a94f29d13a35, type: 3}
+  - {fileID: 2800000, guid: 95d7ece104256c846b97a7dab295fb11, type: 3}
+  - {fileID: 2800000, guid: 4b023426eaabc0847bf765c04ac18932, type: 3}
+  - {fileID: 2800000, guid: 978c5a9dd1bd0094697a42d329460491, type: 3}
+  - {fileID: 2800000, guid: 24ed16fd0ebc65343b62491ce17b78a7, type: 3}
+  - {fileID: 2800000, guid: 0a8a7ceade57e43418bffb2939080dc0, type: 3}
+  - {fileID: 2800000, guid: 084813833b0e7b547ad8cbfb42355565, type: 3}
+  - {fileID: 2800000, guid: 4913755325b683a46b96e1b963ba8b13, type: 3}
+  - {fileID: 2800000, guid: c0a82090d6a887045a0cf9f8f0ee86af, type: 3}
+  - {fileID: 2800000, guid: 617501a4b8cd4b64892f7dec2d1e2e5b, type: 3}
+  - {fileID: 2800000, guid: aecf680f42a4aee4ab6f59189d3258ba, type: 3}
+  - {fileID: 2800000, guid: 9f38bc6b894e02545a76fb9fd41abe3b, type: 3}
+  - {fileID: 2800000, guid: a30d1878de8588543a48f0f62d97ac74, type: 3}
+  - {fileID: 2800000, guid: 9545c661293bf594e8a4b411fa2b4824, type: 3}
+  - {fileID: 2800000, guid: e47c52944b2e9504784c8f0dc697c35d, type: 3}
+  - {fileID: 2800000, guid: 774dcc8a690c47d40b0cd468bd9f68be, type: 3}
   terrain: {fileID: 759970698}
   terrainMaterial: {fileID: 2100000, guid: b918953ede214844989075ae9988213e, type: 2}
 --- !u!4 &852096675 stripped
@@ -1550,11 +1568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 324.6259
+      value: 320.2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.589981
+      value: -21.6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2715,7 +2733,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_ShadowAngle: 0.25
 --- !u!4 &1627895137
 Transform:
   m_ObjectHideFlags: 0
@@ -2773,7 +2791,7 @@ MonoBehaviour:
   m_AreaLightShadowCone: 120
   m_UseScreenSpaceShadows: 1
   m_InteractsWithSky: 1
-  m_AngularDiameter: 0.5
+  m_AngularDiameter: 0.25
   m_FlareSize: 2
   m_FlareTint: {r: 1, g: 1, b: 1, a: 1}
   m_FlareFalloff: 4
@@ -2866,6 +2884,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSunIntensity: 130000
+  volume: {fileID: 401447717}
+  initialExposureComp: 12
 --- !u!1 &1644217809 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7804172552847761505, guid: 9674793c4714ce845b6029b8513ca7fb,
@@ -2898,6 +2918,7 @@ GameObject:
   - component: {fileID: 1681417873}
   - component: {fileID: 1681417875}
   - component: {fileID: 1681417874}
+  - component: {fileID: 1681417876}
   m_Layer: 0
   m_Name: OrthoCamera
   m_TagString: MainCamera
@@ -2973,7 +2994,7 @@ Transform:
   m_GameObject: {fileID: 1681417869}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 125, y: 300, z: 125}
+  m_LocalPosition: {x: 200, y: 300, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3145,13 +3166,24 @@ MonoBehaviour:
   - {fileID: 1414828091}
   houseAssets:
   - {fileID: 1336050824}
+  - {fileID: 100000, guid: d7157c3ded42206408dcd9251fde3233, type: 3}
+  - {fileID: 100000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
+  - {fileID: 100000, guid: a9fee95f2b39c19488c14f5fef863f1e, type: 3}
+  - {fileID: 100000, guid: 16f215b55eebb1b43918cc5aef5c78fa, type: 3}
   - {fileID: 1433862429}
   - {fileID: 1057839011}
-  parentName: trees
-  treeQuantity: 20
-  houseQuantity: 2
-  maxRadius: 20
-  scale: 5
+  - {fileID: 100000, guid: c1df704ea7a42c14aa1afe9c571c06b5, type: 3}
+  - {fileID: 100000, guid: d6cb73f66a1e20940a66ebf660563c78, type: 3}
+  - {fileID: 100000, guid: d103edeffc2ce7a4398733bb5617f8df, type: 3}
+  parentNameTrees: trees
+  parentNameHouses: houses
+  treeQuantity: 100
+  houseQuantity: 100
+  maxRadius: 200
+  maxScale: 1.5
+  minScale: 0.5
+  installsPerFrame: 5
+  shadowsOnly: 0
 --- !u!114 &1681417875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3165,11 +3197,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orthographicSize: 80
-  cameraPosY: 300
   CameraMoveX: 10
   CameraMoveZ: 10
-  loopLimit: 1
+  loopLimit: 5
   tileMultiplier: 10
+--- !u!114 &1681417876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681417869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a678b8bdf451c2247b78cf7bd9b8ac1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1686583229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3421321980594109933, guid: 2303a2a5cf12b2146b1b80d724e092e4,

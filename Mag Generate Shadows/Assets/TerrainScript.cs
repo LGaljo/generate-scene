@@ -3,7 +3,7 @@ using UnityEngine;
 public class TerrainScript : MonoBehaviour
 {
     public Texture2D[] textures;
-    public int idx = 0;
+    private int idx = 0;
     public Terrain terrain;
     public Material terrainMaterial;
 
@@ -13,7 +13,8 @@ public class TerrainScript : MonoBehaviour
         if (terrain == null)
         {
             Debug.LogError("Terrain component not found!");
-            terrainMaterial.mainTexture = this.textures[idx];
+            terrainMaterial.mainTexture = this.textures[this.idx];
+            terrain.terrainData.terrainLayers[0].diffuseTexture = this.textures[this.idx];
         }
         else
         {
@@ -24,20 +25,19 @@ public class TerrainScript : MonoBehaviour
     public int ChangeTerrainMaterial()
     {
         int retval = this.idx + 1;
-        idx = (idx + 1) % this.textures.Length;
-        TerrainData terrainData = terrain.terrainData;
+        this.idx = (this.idx + 1) % this.textures.Length;
 
         // For currently used terrain material which has shader hdrp/lit
         if (terrainMaterial != null)
         {
-            terrainMaterial.mainTexture = this.textures[idx];
+            terrainMaterial.mainTexture = this.textures[this.idx];
         }
 
         // Check if there is at least one terrain layer
-        if (terrainData.terrainLayers.Length > 0)
+        if (terrain.terrainData.terrainLayers.Length > 0)
         {
             // Modify the texture of the first terrain layer
-            terrainData.terrainLayers[0].diffuseTexture = this.textures[idx];
+            terrain.terrainData.terrainLayers[0].diffuseTexture = this.textures[this.idx];
 
             // Refresh the terrain to apply changes
             terrain.Flush();

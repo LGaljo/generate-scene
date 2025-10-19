@@ -106,6 +106,8 @@ public class CaptureSystem_SmallScene : MonoBehaviour
         Light sunLight = this.sun.GetComponent<Light>();
         string shadowType = sunLight.shadows.HumanName();
 
+        //this.orthoCamera.orthographicSize = UnityEngine.Random.Range(40, 100);
+
         float x = orthoCamera.transform.position.x;
         float z = orthoCamera.transform.position.z;
         string savePath = System.IO.Path.Combine(folderPath, $"{layerName}_{shortHash}-x{x}-z{z}-{shadowType}.png");
@@ -175,28 +177,29 @@ public class CaptureSystem_SmallScene : MonoBehaviour
             if (this.idx < this.loopLimit)
             {
                 // Different arrangements of objects on map
-                this.placeObjects.PlaceAssetsInCartesian("trees");
-                this.placeObjects.PlaceAssetsInCartesian("houses");
+                this.placeObjects.PlaceAssetsInCartesian("trees", true);
+                this.placeObjects.PlaceAssetsInCartesian("houses", true);
 
                 for (int i = 0; i < 4; i++)
                 {
                     string shortHash = CalculateShortHash();
-
+                    this.orthoCamera.orthographicSize = UnityEngine.Random.Range(this.orthographicSize - 20f, this.orthographicSize + 10f);
+                    float offset = 30f;
                     if (i ==  0)
                     {
-                        this.MoveCameraAbsolute(new Vector3(40f, 0, 40f), 90f * i);
+                        this.MoveCameraAbsolute(new Vector3(offset, 0, offset), UnityEngine.Random.Range(0f, 360f));
                     }
                     else if (i == 1)
                     {
-                        this.MoveCameraAbsolute(new Vector3(40f, 0, -40f), 90f * i);
+                        this.MoveCameraAbsolute(new Vector3(offset, 0, -offset), UnityEngine.Random.Range(0f, 360f));
                     }
                     else if (i == 2)
                     {
-                        this.MoveCameraAbsolute(new Vector3(-40f, 0f, 40f), 90f * i);
+                        this.MoveCameraAbsolute(new Vector3(-offset, 0f, offset), UnityEngine.Random.Range(0f, 360f));
                     }
                     else
                     {
-                        this.MoveCameraAbsolute(new Vector3(-40f, 0, -40f), 90f * i);
+                        this.MoveCameraAbsolute(new Vector3(-offset, 0, -offset), UnityEngine.Random.Range(0f, 360f));
                     }
 
                     // Different shadow locations
@@ -208,7 +211,8 @@ public class CaptureSystem_SmallScene : MonoBehaviour
                     this.CaptureAndSave(shortHash);
                 }
 
-                this.placeObjects.DestroyAllChildren();
+                this.placeObjects.DestroyAllChildren("trees");
+                this.placeObjects.DestroyAllChildren("houses");
 
                 this.idx += 1;
             }

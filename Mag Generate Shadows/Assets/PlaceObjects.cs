@@ -1,9 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+
+class ObjectPrefab {
+    public Vector3 position;
+    public float size;
+    public float rotation;
+    public GameObject asset;
+    public string parentName;
+
+    public ObjectPrefab(Vector3 position, float size, float rotation, GameObject asset, string parentName) { 
+        this.parentName = parentName;
+        this.position = position;
+        this.size = size;
+        this.rotation = rotation;
+        this.asset = asset;
+    }
+}
 
 public class PlaceObjects : MonoBehaviour
 {
-    GameObject parent;
+    GameObject parentTrees;
+    GameObject parentHouses;
     public GameObject[] treeAssets;
     public GameObject[] houseAssets;
     List<Vector3> treeSizes = new();
@@ -11,39 +30,48 @@ public class PlaceObjects : MonoBehaviour
     float terrainWidth = 0;
     float terrainLength = 0;
 
-    public string parentName = "trees";
+    public string parentNameTrees = "trees";
+    public string parentNameHouses = "houses";
     public int treeQuantity = 6000;
     public int houseQuantity = 2500;
     public float maxRadius = 400;
-    public float scale = 0.25f;
+    public float maxScale;
+    public float minScale;
 
     private float centerX = 0;
     private float centerZ = 0;
 
+    public int installsPerFrame = 20;
+    private List<ObjectPrefab> objectsToPlace = new();
+
+    public bool shadowsOnly = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        this.SetParentGameObject(this.parentName);
+        this.parentTrees = GameObject.Find(this.parentNameTrees);
+        this.parentTrees = this.SetParentGameObject(this.parentTrees, this.parentNameTrees);
+
+        this.parentHouses = GameObject.Find(this.parentNameHouses);
+        this.parentHouses = this.SetParentGameObject(this.parentHouses, this.parentNameHouses);
+
         this.CalculateTerrainCenter();
         this.CalculateGameObjectSizes(this.treeAssets, this.treeSizes);
         this.CalculateGameObjectSizes(this.houseAssets, this.houseSizes);
     }
 
-    void SetParentGameObject(string pName)
+    GameObject SetParentGameObject(GameObject parent, string name)
     {
-        // Find existing parent GameObject by name
-        this.parent = GameObject.Find(pName);
-        //Debug.Log(parent.name);
-        // If the parent doesn't exist, create it
-        if (this.parent == null)
+        if (parent == null)
         {
-            this.parent = new GameObject(pName);
+            parent = new GameObject(name);
         }
         else
         {
-            // Clear existing children of the parent GameObject
-            this.DestroyAllChildren();
+            this.DestroyAllChildren(parent);
         }
+
+        return parent;
     }
 
     void CalculateGameObjectSizes(GameObject[] gameObjects, List<Vector3> array)
@@ -56,7 +84,7 @@ public class PlaceObjects : MonoBehaviour
 
     Vector3 GetAssetSize(GameObject gameObject)
     {
-        GameObject tmpAsset = Instantiate(gameObject, new(0f, 0f, 0f), Quaternion.identity, this.parent.transform);
+        GameObject tmpAsset = Instantiate(gameObject, new(0f, 0f, 0f), Quaternion.identity, this.parentTrees.transform);
         Destroy(tmpAsset);
         return tmpAsset.GetComponent<Renderer>().bounds.size;
     }
@@ -84,45 +112,60 @@ public class PlaceObjects : MonoBehaviour
         }
     }
 
-    public void PlaceAssetsInCartesian(string gameObjectName)
+    public void PlaceAssetsInCartesian(string parentName, bool placeAsset)
     {
-        if (gameObjectName.Equals("trees"))
+        if (parentName.Equals("trees"))
         {
-            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity);
+            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity, placeAsset, parentName);
         }
-        if (gameObjectName.Equals("houses"))
+        if (parentName.Equals("houses"))
         {
-            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity);
+            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity, placeAsset, parentName);
         }
     }
 
-    public void PlaceAssetsInPolar(string gameObjectName)
+    public void PlaceAssetsInPolar(string parentName, bool placeAsset)
     {
-        if (gameObjectName.Equals("trees"))
+        if (parentName.Equals("trees"))
         {
-            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity);
+            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity, placeAsset, parentName);
         }
-        if (gameObjectName.Equals("houses"))
+        if (parentName.Equals("houses"))
         {
-            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity);
+            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity, placeAsset, parentName);
         }
     }
 
-    void PlaceAssetsInCartesian(GameObject[] gameObjects, List<Vector3> sizes, int quantity)
+    void PlaceAssetsInCartesian(GameObject[] gameObjects, List<Vector3> sizes, int quantity, bool placeAsset, string parentName)
     {
         for (int i = 0; i < quantity; i++)
         {
             int objectIdx = Random.Range(0, gameObjects.Length - 1);
             float x = Random.Range(0, this.terrainWidth);
             float z = Random.Range(0, this.terrainLength);
-            float scale = Random.Range(this.scale * 0.8f, this.scale * 1.2f);
+            float localScale = Random.Range(this.minScale, this.maxScale);
 
-            Vector3 position = new(x, (sizes[objectIdx].y) * scale, z);
-            this.PlaceAsset(this.parent, gameObjects[objectIdx], position, this.scale);
+            Vector3 position = new(x, (sizes[objectIdx].y) * localScale, z);
+            float rotation = Random.Range(0, 4) * 90f + Random.Range(-10, 10);
+            if (placeAsset)
+            {
+                if (parentName == this.parentNameTrees)
+                {
+                    this.PlaceAsset(this.parentTrees, gameObjects[objectIdx], position, localScale, rotation);
+                }
+                else if (parentName == this.parentNameHouses)
+                {
+                    this.PlaceAsset(this.parentHouses, gameObjects[objectIdx], position, localScale, rotation);
+                }
+            }
+            else
+            {
+                this.objectsToPlace.Add(new ObjectPrefab(position, localScale, rotation, gameObjects[objectIdx], parentName));
+            }
         }
     }
 
-    void PlaceAssetsInPolar(GameObject[] gameObjects, List<Vector3> sizes, int quantity)
+    void PlaceAssetsInPolar(GameObject[] gameObjects, List<Vector3> sizes, int quantity, bool placeAsset, string parentName)
     {
         for (int i = 0; i < quantity; i++)
         {
@@ -139,7 +182,7 @@ public class PlaceObjects : MonoBehaviour
             }
             int objectIdx = Random.Range(0, gameObjects.Length - 1);
             Vector3 position;
-            float localScale = Random.Range(0.5f * this.scale, 1f * this.scale);
+            float localScale = Random.Range(this.minScale, this.maxScale);
             if (gameObjects[objectIdx].GetComponent<BoxCollider>() != null)
             {
                 position = new(x, 0, z);
@@ -148,20 +191,55 @@ public class PlaceObjects : MonoBehaviour
             {
                 position = new(x, (sizes[objectIdx].y / 2) * localScale - 0.1f, z);
             }
-            this.PlaceAsset(this.parent, gameObjects[objectIdx], position, localScale);
+            float rotation = Random.Range(0, 4) * 90f + Random.Range(-10, 10);
+            if (placeAsset)
+            {
+                if (parentName == this.parentNameTrees)
+                {
+                    this.PlaceAsset(this.parentTrees, gameObjects[objectIdx], position, localScale, rotation);
+                }
+                else if (parentName == this.parentNameHouses)
+                {
+                    this.PlaceAsset(this.parentHouses, gameObjects[objectIdx], position, localScale, rotation);
+                }
+            }
+            else
+            {
+                this.objectsToPlace.Add(new ObjectPrefab(position, localScale, rotation, gameObjects[objectIdx], parentName));
+            }
         }
     }
 
-    public void DestroyAllChildren()
+    private void DestroyAllChildren(GameObject parent)
     {
         //Debug.Log("Destroy " + this.parent.transform.childCount + " children");
-        for (int i = this.parent.transform.childCount - 1; i >= 0; i--)
+        for (int i = parent.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(this.parent.transform.GetChild(i).gameObject);
+            Destroy(parent.transform.GetChild(i).gameObject);
         }
     }
 
-    void PlaceAsset(GameObject parent, GameObject asset, Vector3 position, float localScale)
+    public void DestroyAllChildren(string parentName)
+    {
+        if (parentName == this.parentNameTrees)
+        {
+            //Debug.Log("Destroy " + this.parent.transform.childCount + " children");
+            for (int i = this.parentTrees.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(this.parentTrees.transform.GetChild(i).gameObject);
+            }
+        }
+        else if (parentName == this.parentNameHouses)
+        {
+            //Debug.Log("Destroy " + this.parent.transform.childCount + " children");
+            for (int i = this.parentHouses.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(this.parentHouses.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    void PlaceAsset(GameObject parent, GameObject asset, Vector3 position, float localScale, float rotation)
     {
         // Check if the terrain exists
         if (Terrain.activeTerrain != null)
@@ -177,10 +255,20 @@ public class PlaceObjects : MonoBehaviour
                 }
             }
             // 0, 1, 2, or 3 (for 0, 90, 180, or 270 degrees)
-            float rotationAngle = Random.Range(0, 4) * 90f + Random.Range(-10, 10);
-            GameObject newAsset = Instantiate(asset, position, Quaternion.Euler(0f, rotationAngle, 0f), parent.transform);
+            GameObject newAsset = Instantiate(asset, position, Quaternion.Euler(0f, rotation, 0f), parent.transform);
             //Debug.Log(newAsset.transform.position);
             newAsset.transform.localScale = new(localScale, localScale, localScale);
+            MeshRenderer meshRenderer = newAsset.GetComponent<MeshRenderer>();
+            if (meshRenderer != null && this.shadowsOnly)
+            {
+                meshRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
+            // Change base color
+            foreach (Material mat in newAsset.GetComponent<Renderer>().materials)
+            {
+                Color c = new(Random.Range(0.6f, 1f), Random.Range(0.6f, 1f), Random.Range(0.6f, 1f));
+                mat.SetColor("_BaseColor", c);
+            }
         }
         else
         {
@@ -190,34 +278,60 @@ public class PlaceObjects : MonoBehaviour
 
     public void Update()
     {
-        // Custom action on '1' key press
+        // Custom action on 'C' key press
         if (Input.GetKeyDown(KeyCode.C))
         {
-            this.DestroyAllChildren();
+            this.DestroyAllChildren(this.parentHouses);
+            this.DestroyAllChildren(this.parentTrees);
         }
 
         // Custom action on '1' key press
         if (Input.GetKeyDown(KeyCode.Alpha1) && this.treeAssets.Length > 0)
         {
-            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity);
+            this.PlaceAssetsInCartesian(this.treeAssets, this.treeSizes, this.treeQuantity, true, this.parentNameTrees);
         }
 
         // Custom action on '2' key presspress
         if (Input.GetKeyDown(KeyCode.Alpha2) && this.treeAssets.Length > 0)
         {
-            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity);
+            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity, true, this.parentNameTrees);
         }
 
         // Custom action on '3' key presspress
         if (Input.GetKeyDown(KeyCode.Alpha3) && this.houseAssets.Length > 0)
         {
-            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity);
+            this.PlaceAssetsInCartesian(this.houseAssets, this.houseSizes, this.houseQuantity, true, this.parentNameHouses);
         }
 
-        // Custom action on '3' key presspress
+        // Custom action on '4' key presspress
         if (Input.GetKeyDown(KeyCode.Alpha4) && this.houseAssets.Length > 0)
         {
-            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity);
+            this.PlaceAssetsInPolar(this.houseAssets, this.houseSizes, this.houseQuantity, true, this.parentNameHouses);
+        }
+
+        // Custom action on '5' key presspress
+        if (Input.GetKeyDown(KeyCode.Alpha5) && this.houseAssets.Length > 0)
+        {
+            this.PlaceAssetsInPolar(this.treeAssets, this.treeSizes, this.treeQuantity, false, this.parentNameTrees);
+        }
+
+        if (this.objectsToPlace.Count > 0)
+        {
+            for (int i = 0; i < Mathf.Min(this.installsPerFrame, this.objectsToPlace.Count); i++)
+            {
+                ObjectPrefab op = this.objectsToPlace[i];
+                if (op.parentName == this.parentNameTrees)
+                {
+                    this.PlaceAsset(this.parentTrees, op.asset, op.position, op.size, op.rotation);
+                }
+                else if (op.parentName == this.parentNameHouses)
+                {
+                    this.PlaceAsset(this.parentHouses, op.asset, op.position, op.size, op.rotation);
+                }
+
+                this.objectsToPlace.RemoveAt(i);
+                Debug.Log("Place object");
+            }
         }
     }
 }
